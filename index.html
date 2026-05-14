@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Workflows – Visual Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple-50: #EEEDFE; --purple-100: #CECBF6; --purple-200: #AFA9EC; --purple-400: #7F77DD; --purple-600: #534AB7; --purple-800: #3C3489; --purple-900: #26215C;
+    --teal-50: #E1F5EE; --teal-100: #9FE1CB; --teal-200: #5DCAA5; --teal-400: #1D9E75; --teal-600: #0F6E56; --teal-800: #085041; --teal-900: #04342C;
+    --coral-50: #FAECE7; --coral-100: #F5C4B3; --coral-200: #F0997B; --coral-400: #D85A30; --coral-600: #993C1D; --coral-800: #712B13; --coral-900: #4A1B0C;
+    --amber-50: #FAEEDA; --amber-100: #FAC775; --amber-200: #EF9F27; --amber-400: #BA7517; --amber-600: #854F0B; --amber-800: #633806;
+    --blue-50: #E6F1FB; --blue-100: #B5D4F4; --blue-200: #85B7EB; --blue-400: #378ADD; --blue-600: #185FA5; --blue-800: #0C447C;
+    --pink-50: #FBEAF0; --pink-100: #F4C0D1; --pink-200: #ED93B1; --pink-400: #D4537E; --pink-600: #993556; --pink-800: #72243E;
+    --gray-50: #F1EFE8; --gray-100: #D3D1C7; --gray-200: #B4B2A9; --gray-400: #888780; --gray-600: #5F5E5A; --gray-800: #444441;
+    --green-50: #EAF3DE; --green-100: #C0DD97; --green-200: #97C459; --green-400: #639922; --green-600: #3B6D11; --green-800: #27500A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #0e0c1a;
+    color: #f0eefd;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* COVER */
+  .cover {
+    background: linear-gradient(135deg, #1a1530 0%, #0e0c1a 50%, #0e1a16 100%);
+    padding: 80px 60px 60px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(127,119,221,0.2);
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(127,119,221,0.12) 0%, transparent 70%);
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 200px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(29,158,117,0.1) 0%, transparent 70%);
+  }
+  .cover-tag {
+    display: inline-block;
+    background: var(--purple-900);
+    color: var(--purple-100);
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--purple-400);
+    margin-bottom: 28px;
+  }
+  .cover h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: #fff;
+    max-width: 700px;
+    margin-bottom: 20px;
+  }
+  .cover h1 span { color: var(--purple-400); }
+  .cover-desc {
+    font-size: 17px;
+    font-weight: 300;
+    color: rgba(240,238,253,0.65);
+    max-width: 520px;
+    line-height: 1.65;
+    margin-bottom: 40px;
+  }
+  .cover-stats {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .stat-item { }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--purple-200);
+  }
+  .stat-label {
+    font-size: 12px;
+    font-weight: 300;
+    color: rgba(240,238,253,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* MAIN GRID */
+  .grid-container {
+    padding: 60px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 28px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* WORKFLOW CARDS */
+  .card {
+    border-radius: 20px;
+    padding: 32px 28px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .card:hover { transform: translateY(-2px); }
+
+  .card-purple { background: #1c193a; border: 1px solid rgba(127,119,221,0.25); }
+  .card-teal   { background: #0f1f1b; border: 1px solid rgba(29,158,117,0.25); }
+  .card-coral  { background: #221410; border: 1px solid rgba(216,90,48,0.25); }
+  .card-amber  { background: #1e1608; border: 1px solid rgba(186,117,23,0.25); }
+  .card-blue   { background: #0e1828; border: 1px solid rgba(55,138,221,0.25); }
+  .card-pink   { background: #200f17; border: 1px solid rgba(212,83,126,0.25); }
+  .card-green  { background: #0f1a0a; border: 1px solid rgba(99,153,34,0.25); }
+
+  .card-accent-dot {
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    opacity: 0.07;
+  }
+  .dot-purple { background: var(--purple-400); }
+  .dot-teal   { background: var(--teal-400); }
+  .dot-coral  { background: var(--coral-400); }
+  .dot-amber  { background: var(--amber-200); }
+  .dot-blue   { background: var(--blue-400); }
+  .dot-pink   { background: var(--pink-400); }
+  .dot-green  { background: var(--green-400); }
+
+  .card-icon-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+  .icon-purple { background: var(--purple-900); color: var(--purple-200); }
+  .icon-teal   { background: var(--teal-800);   color: var(--teal-200); }
+  .icon-coral  { background: var(--coral-900);  color: var(--coral-200); }
+  .icon-amber  { background: var(--amber-800);  color: var(--amber-100); }
+  .icon-blue   { background: var(--blue-800);   color: var(--blue-200); }
+  .icon-pink   { background: var(--pink-800);   color: var(--pink-200); }
+  .icon-green  { background: var(--green-800);  color: var(--green-200); }
+
+  .card-category-badge {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .badge-purple { background: var(--purple-900); color: var(--purple-200); }
+  .badge-teal   { background: var(--teal-800);   color: var(--teal-100); }
+  .badge-coral  { background: var(--coral-900);  color: var(--coral-100); }
+  .badge-amber  { background: var(--amber-800);  color: var(--amber-100); }
+  .badge-blue   { background: var(--blue-800);   color: var(--blue-100); }
+  .badge-pink   { background: var(--pink-800);   color: var(--pink-100); }
+  .badge-green  { background: var(--green-800);  color: var(--green-100); }
+
+  .card h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #f0eefd;
+    letter-spacing: -0.01em;
+  }
+  .card p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.65;
+    color: rgba(240,238,253,0.6);
+  }
+
+  .prompt-block {
+    border-radius: 12px;
+    padding: 16px 18px;
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.6;
+    color: rgba(240,238,253,0.8);
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+  }
+  .prompt-block::before {
+    content: '"';
+    position: absolute;
+    top: 8px; left: 12px;
+    font-size: 28px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    opacity: 0.3;
+    line-height: 1;
+  }
+  .prompt-block em {
+    display: block;
+    padding-left: 12px;
+    font-style: italic;
+    border-left: 2px solid;
+    margin-top: 4px;
+  }
+  .pb-purple { background: rgba(127,119,221,0.08); }
+  .pb-purple em { border-color: var(--purple-600); }
+  .pb-teal   { background: rgba(29,158,117,0.08); }
+  .pb-teal em   { border-color: var(--teal-600); }
+  .pb-coral  { background: rgba(216,90,48,0.08); }
+  .pb-coral em  { border-color: var(--coral-600); }
+  .pb-amber  { background: rgba(186,117,23,0.08); }
+  .pb-amber em  { border-color: var(--amber-400); }
+  .pb-blue   { background: rgba(55,138,221,0.08); }
+  .pb-blue em   { border-color: var(--blue-600); }
+  .pb-pink   { background: rgba(212,83,126,0.08); }
+  .pb-pink em   { border-color: var(--pink-600); }
+  .pb-green  { background: rgba(99,153,34,0.08); }
+  .pb-green em  { border-color: var(--green-600); }
+
+  .ethics-block {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-size: 12.5px;
+    font-weight: 300;
+    line-height: 1.6;
+    color: rgba(240,238,253,0.55);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+  .ethics-icon {
+    font-size: 16px;
+    margin-top: 1px;
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+  .ethics-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(240,238,253,0.4);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .tools-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .tool-chip {
+    font-size: 11px;
+    font-weight: 400;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(240,238,253,0.6);
+    background: rgba(255,255,255,0.04);
+  }
+
+  /* WIDE CARD spanning 2 cols */
+  .card-wide {
+    grid-column: span 2;
+  }
+  @media (max-width: 760px) {
+    .card-wide { grid-column: span 1; }
+    .grid-container { padding: 24px 20px; gap: 20px; }
+    .cover { padding: 48px 24px 40px; }
+  }
+
+  /* DIVIDER SECTION */
+  .section-divider {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 60px 20px;
+  }
+  .section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(240,238,253,0.3);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.07);
+  }
+
+  /* FOOTER */
+  .footer {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 60px 60px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  .footer h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(240,238,253,0.3);
+    margin-bottom: 16px;
+  }
+  .footer p {
+    font-size: 12px;
+    font-weight: 300;
+    color: rgba(240,238,253,0.35);
+    line-height: 1.8;
+  }
+  .footer a {
+    color: var(--purple-400);
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-tag">Knowledge Resource</div>
+  <h1>AI <span>Workflows</span><br>for Knowledge Workers</h1>
+  <p class="cover-desc">A practical guide to ten AI-powered workflows — from data inference to content creation — with ready-to-use prompts and ethical considerations.</p>
+  <div class="cover-stats">
+    <div class="stat-item"><div class="stat-num">10</div><div class="stat-label">Workflows</div></div>
+    <div class="stat-item"><div class="stat-num">10</div><div class="stat-label">Ready Prompts</div></div>
+    <div class="stat-item"><div class="stat-num">10</div><div class="stat-label">Ethics Disclosures</div></div>
+    <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">AI Tools Covered</div></div>
+  </div>
+</div>
+
+<!-- TOOLS ROW -->
+<div class="section-divider" style="padding-top:48px;">
+  <div class="section-label">Tools covered in this guide</div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;">
+    <span class="tool-chip">ChatGPT</span>
+    <span class="tool-chip">Claude.ai</span>
+    <span class="tool-chip">Perplexity AI</span>
+    <span class="tool-chip">Notion AI</span>
+    <span class="tool-chip">NotebookLM</span>
+    <span class="tool-chip">Gemini</span>
+    <span class="tool-chip">Obsidian</span>
+    <span class="tool-chip">Fabric.so</span>
+  </div>
+</div>
+
+<!-- WORKFLOW CARDS -->
+<div class="grid-container">
+
+  <!-- 1. AI & Data: Sensitive Data Inference -->
+  <div class="card card-purple">
+    <div class="card-accent-dot dot-purple"></div>
+    <div class="card-icon-row">
+      <div class="card-icon icon-purple">🔍</div>
+      <span class="card-category-badge badge-purple">AI & Data</span>
+    </div>
+    <h2>Inferring Sensitive Data from Public Information</h2>
+    <p>AI models can use university acronyms and names to infer country of origin, gender, title, and cultural norms — without direct access to sensitive fields.</p>
+    <div class="prompt-block pb-purple">
+      <em>Act as a data analyst. You will receive an Excel file with a student list. Create new columns for: country of origin (from university acronym), gender (from student name + country), and title (from gender). Return the enriched table.</em>
+    </div>
+    <div class="ethics-block">
+      <span class="ethics-icon">⚠️</span>
+      <div>
+        <span class="ethics-label">Ethics disclosure</span>
+        AI-inferred sensitive data mirrors how corporations use big data to deduce social status, purchasing power, and personal details from general data. This opens significant ethical concerns around privacy and data protection.
+      </div>
+    </div>
+    <div class="tools-row"><span class="tool-chip">ChatGPT</span><span class="tool-chip">Excel</span></div>
+  </div>
+
+  <!-- 2. PARA Method + Obsidian -->
+  <div class="card card-teal">
+    <div class="card-accent-dot dot-teal"></div>
+    <div class="card-icon-row">
+      <div class="card-icon icon-teal">🗂️</div>
+      <span class="card-category-badge badge-teal">Knowledge Management</span>
+    </div>
+    <h2>PARA Method with ChatGPT + Obsidian</h2>
+    <p>Use ChatGPT to organise your notes into the PARA structure (Projects, Areas, Resources, Archives), then store them locally in Obsidian for a safe, private, local-first setup.</p>
+    <div class="prompt-block pb-teal">
+      <em>Act as a knowledge management assistant. Organise my notes using the PARA method. Categorise each item into the right folder, suggest clear names, and flag anything for Archive (inactive items). Keep the structure simple and easy to maintain.</em>
+    </div>
+    <div class="ethics-block">
+      <span class="ethics-icon">🛡️</span>
+      <div>
+        <span class="ethics-label">Ethics disclosure</span>
+        Obsidian's local-first approach keeps your data on your device by default. However, syncing or collaborating via cloud means your data may be stored elsewhere — stay mindful of access rights.
+      </div>
+    </div>
+    <div class="tools-row"><span class="tool-chip">ChatGPT</span><span class="tool-chip">Obsidian</span></div>
+  </div>
+
+  <!-- 3. Claude as PA for Calendar -->
+  <div class="card card-blue">
+    <div class="card-accent-dot dot-blue"></div>
+    <div class="card-icon-row">
+      <div class="card-icon icon-blue">📅</div>
+      <span class="card-category-badge badge-blue">Productivity</span>
+    </div>
+    <h2>AI as Personal Assistant — Calendar Integration with Claude</h2>
+    <p>Claude.ai can read calendar entries (titles, times, agenda links), identify actionable items and deadlines, suggest readings before meetings, and propose "focus time" blocks.</p>
+    <div class="prompt-block pb-blue">
+      <em>Act as a productivity assistant. I'll give you access to my calendar. Identify actionable items and deadlines. Suggest a daily to-do list, highlight pre-meeting readings, and propose focus time blocks. Keep it concise and practical.</em>
+    </div>
+    <div class="ethics-block">
+      <span class="ethics-icon">⚠️</span>
+      <div>
+        <span class="ethics-label">Ethics disclosure</span>
+        Calendar AI access can expose sensitive meeting data and internal documents — especially via "shadow AI" tools not approved by corporate IT. The Irish HSE breach is a cautionary example. Only use company-approved tools.
+      </div>
+    </div>
+    <div class="tools-row"><span class="tool-chip">Claude.ai</span><span class="tool-chip">Calendar</span></div>
+  </div>
+
+  <!-- 4. Perplexity for Content Analysis -->
+  <div class="card card-amber">
+    <div class="card-accent-dot dot-amber"></div>
+    <div class="card-icon-row">
+      <div class="card-icon icon-amber">📊</div>
+      <span class="card-category-badge badge-amber">Content Strategy</span>
+    </div>
+    <h2>Quantitative + Qualitative Analysis with Perplexity AI</h2>
+    <p>Combine performance data (clicks, views) with audience feedback (comments, surveys) to generate insights on what content works and why — with actionable content ideas.</p>
+    <div class="prompt-block pb-amber">
+      <em>Act as a content and media strategist. I'll give you quantitative data (pageviews, CTR) and qualitative data (comments, surveys). Analyse both and produce insights on audience needs, then suggest 3–5 content domains and creative concepts.</em>
+    </div>
+    <div class="ethics-block">
+      <span class="ethics-icon">⚖️</span>
+      <div>
+        <span class="ethics-label">Ethics disclosure</span>
+        AI may over-recommend "feel-good" high-engagement topics while ignoring important low-performing ones. Counter this: for every 3 high-performing topics, force 1 "low-data but high-value" topic, and check who is missing from your data.
+      </div>
+    </div>
+    <div class="tools-row"><span class="tool-chip">Perplexity AI</span></div>
+  </div>
+
+  <!-- 5. ChatGPT for Prompt Engineering in Notion AI -->
+  <div class="card card-pink">
+    <div class="card-accent-dot dot-pink"></div>
+    <div class="card-icon-row">
+      <div class="card-icon icon-pink">✍️</div>
+      <span class="card-category-badge badge-pink">Prompt Engineering</span>
+    </div>
+    <h2>Use ChatGPT to Build Better Prompts for Notion AI</h2>
+    <p>Use one AI to optimise your instructions before passing them to another. This "prompt chaining" approach produces more structured, precise results in Notion AI.</p>
+    <div class="prompt-block pb-pink">
+      <em>Act as a prompt engineer. Rewrite my rough instruction into a clear, structured prompt optimised for Notion AI. Include: the AI's role, the task, the expected format, and constraints (tone, length, style). [Add rough instructions + ideal success result].</em>
+    </div>
+    <div class="ethics-block">
+      <span class="ethics-icon">🔁</span>
+      <div>
+        <span class="ethics-label">Ethics disclosure</span>
+        A sunk-cost fallacy can set in: once you've optimised prompts, you keep using them even if they no longer serve your original goal. Periodically step back and check whether the workflow still aligns with your intentions.
+      </div>
+    </div>
+    <div class="tools-row"><span class="tool-chip">ChatGPT</span><span class="tool-chip">Notion AI</span></div>
+  </div>
+
+  <!-- 6. Claude for Cross-Publishing -->
+  <div class="card card-purple">
+    <div class="card-accent-dot dot-purple"></div>
+    <div class="card-icon-row">
+      <div class="card-icon icon-purple">📢</div>
+      <span class="card-category-badge badge-purple">Content Creation</span>
+    </div>
+    <h2>Claude for Content Generation and Cross-Publishing</h2>
+    <p>Claude.ai can turn a rough idea into a short, engaging social post — with an image suggestion — ready for platforms like Bluesky. Great for small teams with limited content resources.</p>
+    <div class="prompt-block pb-purple">
+      <em>Act as a social media editor. [Add context, e.g. small regional university]. I'll give you a rough post idea. Turn it into a short, engaging Bluesky post (max ~300 characters) in clear, natural language. Suggest one simple image idea. Keep the tone informative and accessible.</em>
+    </div>
+    <div class="ethics-block">
+      <span class="ethics-icon">🧠</span>
+      <div>
+        <span class="ethics-label">Ethics disclosure</span>
+        Claude uses Constitutional AI — trained on Anthropic's detailed values. Even so, AI results can still be incomplete or imperfect. Human review is always needed before publishing.
+      </div>
+    </div>
+    <div class="tools-row"><span class="tool-chip">Claude.ai</span><span class="tool-chip">Bluesky</span></div>
+  </div>
+
+  <!-- 7. NotebookLM for EU AI Act -->
+  <div class="card card-teal card-wide">
+    <div class="card-accent-dot dot-teal"></div>
+    <div class="card-icon-row">
+      <div class="card-icon icon-teal">📜</div>
+      <span class="card-category-badge badge-teal">Regulatory Analysis</span>
+    </div>
+    <h2>Understand Complex Regulations with NotebookLM (EU AI Act Example)</h2>
+    <p>Upload official legal documents into NotebookLM and let AI produce overviews, summaries, and adaptive takeaways — with full citations back to the source material. Ideal for complex regulatory texts like the EU AI Act.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div class="prompt-block pb-teal">
+        <em>Act as a policy analyst. Using only the provided EU AI Act documents, create: (1) a plain-language overview, (2) a breakdown of risk categories, (3) practical implications for organisations + "what to do now" summary, (4) key definitions and compliance requirements. Include source citations throughout.</em>
+      </div>
+      <div class="ethics-block" style="align-self:start;">
+        <span class="ethics-icon">✅</span>
+        <div>
+          <span class="ethics-label">Ethics disclosure</span>
+          NotebookLM grounds all responses in user-provided sources, reducing hallucinations and improving traceability. For complex regulation like the EU AI Act, this source-linked approach significantly improves reliability over general AI queries.
+        </div>
+      </div>
+    </div>
+    <div class="tools-row"><span class="tool-chip">NotebookLM</span><span class="tool-chip">EU AI Act</span></div>
+  </div>
+
+  <!-- 8. Gemini with Drive -->
+  <div class="card card-green">
+    <div class="card-accent-dot dot-green"></div>
+    <div class="card-icon-row">
+      <div class="card-icon icon-green">📁</div>
+      <span class="card-category-badge badge-green">Information Retrieval</span>
+    </div>
+    <h2>Gemini + Google Drive for Briefing Preparation</h2>
+    <p>Gemini can scan your entire Google Drive and pull relevant information from across notes, slides, and emails — perfect for preparing a briefing without manual searching.</p>
+    <div class="prompt-block pb-green">
+      <em>Act as a research assistant. Search my Google Drive for anything related to "[topic]". Identify relevant documents, extract key decisions and deadlines, highlight contradictions, and summarise everything into max 5 bullets. Reference source file and date for each point.</em>
+    </div>
+    <div class="ethics-block">
+      <span class="ethics-icon">💡</span>
+      <div>
+        <span class="ethics-label">Ethics disclosure</span>
+        Relying on one ecosystem increases lock-in and data exposure. Tip: create a dedicated "safe-to-scan" folder (e.g. Briefings_AI) and only run AI queries there. Avoid pointing Gemini at your entire Drive by default.
+      </div>
+    </div>
+    <div class="tools-row"><span class="tool-chip">Gemini</span><span class="tool-chip">Google Drive</span></div>
+  </div>
+
+  <!-- 9. SEO Podcast Topics -->
+  <div class="card card-coral">
+    <div class="card-accent-dot dot-coral"></div>
+    <div class="card-icon-row">
+      <div class="card-icon icon-coral">🎙️</div>
+      <span class="card-category-badge badge-coral">SEO & Podcasting</span>
+    </div>
+    <h2>AI-Driven Podcast Topic Generation with SEO Data</h2>
+    <p>Use search data and audience questions to surface what people are genuinely curious or confused about, then turn those insights into podcast episode ideas framed as real questions.</p>
+    <div class="prompt-block pb-coral">
+      <em>Act as a podcast editor and SEO analyst. [Add context]. You'll receive keyword data, audience questions, and related search data. Group queries into topics and turn them into episode ideas framed as real questions (e.g. "How do I apply for…?"). Suggest a clear title and short description for each.</em>
+    </div>
+    <div class="ethics-block">
+      <span class="ethics-icon">⚖️</span>
+      <div>
+        <span class="ethics-label">Ethics disclosure</span>
+        SEO-driven AI can overrepresent popular groups and push engaging topics over complex, important ones. Mitigation: use only anonymised, aggregated data — and keep humans in the review loop for all topic decisions.
+      </div>
+    </div>
+    <div class="tools-row"><span class="tool-chip">AI + SEO Data</span></div>
+  </div>
+
+  <!-- 10. OCR + Fabric.so -->
+  <div class="card card-blue">
+    <div class="card-accent-dot dot-blue"></div>
+    <div class="card-icon-row">
+      <div class="card-icon icon-blue">📱</div>
+      <span class="card-category-badge badge-blue">Personal Productivity</span>
+    </div>
+    <h2>OCR Text Scanner + Fabric.so as an AI Repository</h2>
+    <p>As you scroll LinkedIn or other feeds, an OCR scanner captures actionable items from your screen. AI then filters for relevant tasks and routes them into Fabric.so, Instapaper, or Readwise for review.</p>
+    <div class="prompt-block pb-blue">
+      <em>No single prompt — this is a workflow: OCR captures screen text → AI filters for only actionable items → cleaned results are sorted into folders ("To do", "Read later", "Ideas") → human review step before final storage.</em>
+    </div>
+    <div class="ethics-block">
+      <span class="ethics-icon">🔒</span>
+      <div>
+        <span class="ethics-label">Ethics disclosure</span>
+        Screen-scanning OCR tools may capture unintended sensitive data. The Yahoo data breach (2024) is a reminder: the more you capture, the more you expose. Always include a human review step before storage. The more you capture, the bigger the target.
+      </div>
+    </div>
+    <div class="tools-row"><span class="tool-chip">OCR</span><span class="tool-chip">Fabric.so</span><span class="tool-chip">Instapaper</span><span class="tool-chip">Readwise</span></div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <h3>References</h3>
+  <p>
+    Forte, T. (2023). <em>The PARA method: The simple system for organizing your digital life in seconds.</em> Forte Labs. <a href="https://fortelabs.com/blog/para/" target="_blank">fortelabs.com/blog/para</a><br>
+    Hess, A. J. (2023). <em>Researcher Meredith Whittaker says AI's biggest risk isn't consciousness — it's the corporations that control them.</em> Fast Company.<br>
+    Cybercrime Magazine. (2024). <em>Yahoo still ranks as the largest data breach in history.</em> Cybersecurity Ventures.
+  </p>
+</div>
+
+</body>
+</html>
